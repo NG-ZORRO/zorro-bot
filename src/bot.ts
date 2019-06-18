@@ -23,14 +23,10 @@ export class Bot {
   }
 
   async assignOwner() {
-    const invalidConfig = this.config.issue.invalid;
     const config = this.config.issue.assignOwner;
     const label = this.context.payload.label.name
     const issue = this.context.payload.issue;
     const assignees: string[] = [];
-    if (!issue.body.includes(invalidConfig.mark)) {
-      return;
-    }
 
     Object.keys(config.components).forEach(component => {
       if (format(config.labelTemplate, { component }).toLowerCase() === label.toLowerCase()) {
@@ -45,7 +41,11 @@ export class Bot {
       }, 'assigning owner...');
 
       try {
-        await this.context.github.issues.addAssignees(this.context.issue({ assignees }));
+        if (this.context.event.search('pull_request') !== -1) {
+          await this.context.github.pullRequests.createReviewRequest(this.context.issue({ reviewers: assignees }));
+        } else {
+          await this.context.github.issues.addAssignees(this.context.issue({ assignees }));
+        }
         this.log.info({
           assignees
         }, 'assigned owner.');
@@ -60,11 +60,14 @@ export class Bot {
   }
 
   async addComponentLabel() {
+    const invalidConfig = this.config.issue.invalid;
     const config = this.config.issue.assignOwner;
     const components = Object.keys(config.components);
     const issue = this.context.payload.issue;
     let label: string | null = null;
-
+    if (!issue.body.includes(invalidConfig.mark)) {
+      return;
+    }
     const title = issue.title
     .replace(/[\u4e00-\u9fa5]/g, ' ')
     .replace(/(-)/g, '')
@@ -134,11 +137,11 @@ export class Bot {
     const config = this.config.issue.translate;
     const issue = this.context.payload.issue;
     if (containsChinese(issue.title)) {
-      let content = format(config.replay, { title: issue.title, body: issue.body});
-      content = content.replace(/<!--(.*?)-->/g, '');
-      const translated = await translate(content, { from: 'zh-CN', to: 'en' });
-      if (translated && translated.text) {
-        const issueComment = this.context.issue({ body: translated.text });
+      const body = await translate(issue.body.replace(/<!--(.*?)-->/g, ''), { from: 'zh-CN', to: 'en' });
+      const title = await translate(issue.title, { from: 'zh-CN', to: 'en' });
+      if (body.text && title.text) {
+        let content = format(config.replay, { title: title.text, body:  body.text});
+        const issueComment = this.context.issue({ body: content });
 
         this.log.trace({
           issue,
