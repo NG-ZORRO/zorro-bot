@@ -1,0 +1,16 @@
+{
+  "name": "zorro-bot",
+  "alias": "zorro-bot",
+  "scale": {
+    "all": {
+      "min": 1,
+      "max": 2
+    }
+  },
+  "env": {
+    "LOG_LEVEL": "info",
+    "APP_ID": "@zorro-bot-app-id",
+    "PRIVATE_KEY": "@zorro-bot-private-key",
+    "WEBHOOK_SECRET": "@zorro-bot-webhook-secret"
+  }
+}
