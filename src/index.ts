@@ -8,6 +8,7 @@ export = (app: Application) => {
     const config = await getConfig(context);
     const bot = new Bot(context, config);
     await bot.replyInvalid();
+    await bot.replyTranslate();
   })
 
   app.on('issues.labeled', async (context) => {

@@ -1,4 +1,11 @@
 issue:
+  translate:
+    replay: |
+      Translation of this issue:
+      ---
+      ## @{title}
+
+      @{body}
   needReproduce:
     label: Need Reproduce
     afterLabel: Need More Info

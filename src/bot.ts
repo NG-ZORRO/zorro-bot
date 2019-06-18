@@ -4,12 +4,30 @@ import format from 'string-template';
 import { Config } from './interfaces/config.interface'
 import { OrgsListMembersResponseItem } from '@octokit/rest';
 
-function isDev() {
+const translate = require('@vitalets/google-translate-api');
+
+function isDev(): boolean {
   return process && process.env && process.env.DEV === 'true';
+}
+
+function containsChinese(title: string): boolean {
+  return /[\u4e00-\u9fa5]/.test(title);
 }
 
 export class Bot {
   constructor(private context: Context, private config: Config) {
+  }
+
+  async replyTranslate() {
+    const config = this.config.issue.translate;
+    const issue = this.context.payload.issue;
+    if (containsChinese(issue.title)) {
+      let content = format(config.replay, { title: issue.title, body: issue.body});
+      content = content.replace(/<!--(.*?)-->/g, '');
+      const translated = await translate(content, { from: 'zh-CN', to: 'en' });
+      const issueComment = this.context.issue({ body: translated })
+      await this.context.github.issues.createComment(issueComment);
+    }
   }
 
   async replyNeedReproduce() {
@@ -22,7 +40,7 @@ export class Bot {
       const issueComment = this.context.issue({ body: format(config.replay, { user:  opener}) })
       await this.context.github.issues.createComment(issueComment);
       if (config.afterLabel) {
-        await this.context.github.issues.addLabels(this.context.issue({labels: [config.afterLabel]}))
+        await this.context.github.issues.addLabels(this.context.issue({labels: [config.afterLabel]}));
       }
     }
   }
