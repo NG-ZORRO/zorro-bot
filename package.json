@@ -1,9 +1,9 @@
 {
   "name": "zorro-bot",
   "version": "1.0.0",
-  "description": "Zorro Bot is a bot that helps the project by doing all kind of administrative tasks on our PR' and issues.",
+  "description": "Zorro Bot is a bot that helps the project by doing all kind of administrative tasks on our PR and issues.",
   "author": "Hsuan Lee <hsuangm@gmail.com> (https://github.com/hsuanxyz/zorro-bot)",
-  "license": "ISC",
+  "license": "MIT",
   "repository": "https://github.com/hsuanxyz/zorro-bot.git",
   "homepage": "https://github.com/hsuanxyz/zorro-bot",
   "bugs": "https://github.com/hsuanxyz/zorro-bot/issues",
@@ -15,18 +15,21 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "nodemon --exec \"npm start\"",
-    "start": "probot run ./lib/index.js",
+    "probot-config": "probot run ./lib/index.js",
     "lint": "standard **/*.ts --fix",
     "test": "jest && standard **/*.ts",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "js-yaml": "^3.13.1",
     "nock": "^10.0.0",
-    "@types/nock": "^9.3.0",
-    "probot": "^7.2.0"
+    "probot": "^7.2.0",
+    "probot-config": "^1.0.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
+    "@types/js-yaml": "^3.12.1",
+    "@types/nock": "^9.3.0",
     "@types/node": "^11.9.0",
     "eslint-plugin-typescript": "^0.14.0",
     "jest": "^24.0.0",
