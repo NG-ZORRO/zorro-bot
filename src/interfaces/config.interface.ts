@@ -3,8 +3,8 @@ export interface Config {
 }
 
 export interface IssueConfig {
+  labeledReplay: LabeledReplayItem[];
   translate: {
-    omit: string[];
     replay: string;
   };
   invalid: {
@@ -13,11 +13,19 @@ export interface IssueConfig {
     replay: string;
   };
   assignOwner: {
-    [component: string]: string;
+    labelTemplate: string;
+    components: {
+      [component: string]: string;
+    }
   };
   needReproduce: {
     label: string;
     afterLabel: string;
     replay: string;
   }
+}
+
+export  interface LabeledReplayItem {
+  labels: string[];
+  replay: string;
 }

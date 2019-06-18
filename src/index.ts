@@ -9,28 +9,23 @@ export = (app: Application) => {
     const bot = new Bot(context, config);
     await bot.replyInvalid();
     await bot.replyTranslate();
+    await bot.addComponentLabel();
   })
 
   app.on('issues.labeled', async (context) => {
     const config = await getConfig(context);
     const bot = new Bot(context, config);
     await bot.replyNeedReproduce();
+    await bot.replyLabeled();
+  })
+
+  app.on(['issues.labeled','pull_request.labeled'], async (context) => {
+    const config = await getConfig(context);
+    const bot = new Bot(context, config);
+    await bot.assignOwner();
   })
 
   async function getConfig(context: Context): Promise<Config> {
-    let config = await context.config('nz-boot.yml');
-    if (!config) {
-      config = {
-        issues: {
-          invalid: {
-            mark: "invalid_mark",
-            labels: [],
-            replay: ''
-          },
-          assignOwner: {}
-        }
-      }
-    }
-    return config
+    return await context.config('nz-boot.yml')
   }
 }

@@ -3311,6 +3311,11 @@ kleur@^3.0.2:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
+kmp@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/kmp/-/kmp-0.0.3.tgz#f948644402e0659a704ec973b897ce64712f5301"
+  integrity sha1-+UhkRALgZZpwTslzuJfOZHEvUwE=
+
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"

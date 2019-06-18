@@ -2,6 +2,9 @@ export interface Config {
     issue: IssueConfig;
 }
 export interface IssueConfig {
+    translate: {
+        replay: string;
+    };
     invalid: {
         mark: string;
         labels: string | string[];
