@@ -10,5 +10,10 @@ export interface IssueConfig {
   };
   assignOwner: {
     [component: string]: string;
+  };
+  needReproduce: {
+    label: string;
+    afterLabel: string;
+    replay: string;
   }
 }

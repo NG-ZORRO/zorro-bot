@@ -1,4 +1,13 @@
 issue:
+  needReproduce:
+    label: Need Reproduce
+    afterLabel: Need More Info
+    replay: |
+      Hello @{user}. Please provide a online reproduction by forking this link https://stackblitz.com/edit/ng-zorro-antd-start or a minimal GitHub repository.
+      Issues labeled by `Need Reproduce` will be closed if no activities in 7 days.
+
+      你好 @{user}, 我们需要你提供一个在线的重现实例以便于我们帮你排查问题。你可以通过点击 [此处](https://stackblitz.com/edit/ng-zorro-antd-start) 创建一个 stackblitz 或者提供一个最小化的 GitHub 仓库
+      被标记为 `Need Reproduce` 的 issue 7 天内未跟进将会被自动关闭。
   invalid:
     mark: ng-zorro-issue-helper
     labels: Invalid

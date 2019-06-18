@@ -25,7 +25,6 @@
     "js-yaml": "^3.13.1",
     "nock": "^10.0.0",
     "probot": "^7.2.0",
-    "probot-config": "^1.0.1",
     "string-template": "^1.0.0"
   },
   "devDependencies": {

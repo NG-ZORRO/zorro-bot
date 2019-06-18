@@ -5,5 +5,6 @@ export declare class Bot {
     private config;
     constructor(context: Context, config: Config);
     replyInvalid(): Promise<void>;
-    getMembers(): Promise<string[]>;
+    private isMember;
+    private getMembers;
 }

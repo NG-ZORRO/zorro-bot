@@ -1,7 +1,6 @@
 import { Application, Context } from 'probot'
 import { Bot } from './bot'
 import { Config } from './interfaces/config.interface'
-const probotConfig = require('probot-config');
 
 export = (app: Application) => {
 
@@ -11,13 +10,26 @@ export = (app: Application) => {
     await bot.replyInvalid();
   })
 
+  app.on('issues.labeled', async (context) => {
+    const config = await getConfig(context);
+    const bot = new Bot(context, config);
+    await bot.replyNeedReproduce();
+  })
+
   async function getConfig(context: Context): Promise<Config> {
-    let config = await probotConfig(context, 'nz-boot.yml');
+    let config = await context.config('nz-boot.yml');
     if (!config) {
       config = {
-        assignOwner: {}
+        issues: {
+          invalid: {
+            mark: "invalid_mark",
+            labels: [],
+            replay: ''
+          },
+          assignOwner: {}
+        }
       }
     }
-    return  config;
+    return config
   }
 }
