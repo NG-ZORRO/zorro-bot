@@ -23,4 +23,4 @@ For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
 ## License
 
-[ISC](LICENSE) © 2019 Hsuan Lee <hsuangm@gmail.com> (https://github.com/hsuanxyz/zorro-bot)
+MIT
