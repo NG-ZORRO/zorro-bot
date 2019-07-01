@@ -11,6 +11,13 @@ export = async (app: Application) => {
   const name = (await github.apps.getAuthenticated({})).data.name;
   const id = uuid();
 
+  app.on('release.published', async (context) => {
+    const logger = getLogger(context);
+    const config = await getConfig(context, logger);
+    const bot = new Bot(context, config, logger);
+    await bot.sendRelease();
+  })
+
   app.on('issues.opened', async (context) => {
     const logger = getLogger(context);
     const config = await getConfig(context, logger);

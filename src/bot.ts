@@ -7,6 +7,7 @@ import { OrgsListMembersResponseItem } from '@octokit/rest';
 
 const translate = require('@vitalets/google-translate-api');
 const kmp = require('kmp');
+const axios = require('axios');
 
 function isDev(): boolean {
   return process && process.env && process.env.DEV === 'true';
@@ -236,6 +237,20 @@ export class Bot {
       }
 
     }
+  }
+
+  async sendRelease() {
+    const release = this.context.payload.release;
+    axios.post(
+      `https://oapi.dingtalk.com/robot/send?access_token=${process.env.DINGTALK_TOKEN}`,
+      {
+        msgtype: 'markdown',
+        markdown: {
+          title: `${release.name} 发布`,
+          text: `# ${release.name} 发布日志 \n\n ${release.body}`
+        }
+      }
+    );
   }
 
   private async isMember(): Promise<boolean> {

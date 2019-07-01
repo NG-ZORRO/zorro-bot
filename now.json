@@ -11,6 +11,7 @@
     "LOG_LEVEL": "info",
     "APP_ID": "@zorro-bot-app-id",
     "PRIVATE_KEY": "@zorro-bot-private-key",
-    "WEBHOOK_SECRET": "@zorro-bot-webhook-secret"
+    "WEBHOOK_SECRET": "@zorro-bot-webhook-secret",
+    "DINGTALK_TOKEN": "@zorro-bot-dingtalk-token"
   }
 }
