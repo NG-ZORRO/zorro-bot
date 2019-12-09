@@ -18,6 +18,13 @@ export = async (app: Application) => {
     await bot.sendRelease();
   })
 
+  app.on('pull_request.opened', async (context) => {
+    const logger = getLogger(context);
+    const config = await getConfig(context, logger);
+    const bot = new Bot(context, config, logger);
+    await bot.commentPreview();
+  })
+
   app.on('issues.opened', async (context) => {
     const logger = getLogger(context);
     const config = await getConfig(context, logger);
