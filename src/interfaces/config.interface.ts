@@ -1,5 +1,12 @@
 export interface Config {
   issue: IssueConfig
+  pullRequest: PullRequestConfig
+}
+
+export interface PullRequestConfig {
+  preview: {
+    replay: string
+  }
 }
 
 export interface IssueConfig {

@@ -240,23 +240,23 @@ export class Bot {
   }
 
   async commentPreview() {
-    const number = this.context.payload.number;
-    const pullRequest = this.context.payload.pull_request;
-    const issueComment = this.context.issue({
-      body: `This [preview](https://preview-${number}-ng-zorro-antd.surge.sh/) will be available after the TravisCI is passed.`
-    })
+    if (this.config && this.config.pullRequest && this.config.pullRequest.preview) {
+      const replay = this.config.pullRequest.preview.replay;
+      const number = this.context.payload.number;
+      const pullRequest = this.context.payload.pull_request;
+      const issueComment = this.context.issue({ body: format(replay, { number}) });
+      try {
+        await this.context.github.issues.createComment(issueComment);
 
-    try {
-      await this.context.github.issues.createComment(issueComment);
-
-      this.log.trace({
-        pullRequest,
-      }, 'Comment preview url...');
-    } catch (e) {
-      this.log.error({
-        error: new Error(e),
-        pullRequest,
-      }, 'Comment preview error!');
+        this.log.trace({
+          pullRequest,
+        }, 'Comment preview url...');
+      } catch (e) {
+        this.log.error({
+          error: new Error(e),
+          pullRequest,
+        }, 'Comment preview error!');
+      }
     }
   }
 
