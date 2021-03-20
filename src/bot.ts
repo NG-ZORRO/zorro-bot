@@ -138,10 +138,29 @@ export class Bot {
     const config = this.config.issue.translate;
     const issue = this.context.payload.issue;
     if (containsChinese(issue.title)) {
-      const body = await translate(issue.body.replace(/<!--(.*?)-->/g, ''), { from: 'zh-CN', to: 'en' });
-      const title = await translate(issue.title, { from: 'zh-CN', to: 'en' });
+      const translateOptions = { from: "zh-CN", to: "en" };
+      const title = await translate(issue.title, translateOptions);
+
+      const codeReg = /```([\s\S]*?)```/g;
+      const placeholder = "{{---}}";
+      const codeBlock = (issue.body as string).match(codeReg);
+      const body = await translate(
+        issue.body.replace(codeReg, placeholder).replace(/<!--(.*?)-->/g, ""),
+        translateOptions
+      );
+
       if (body.text && title.text) {
-        let content = format(config.replay, { title: title.text, body:  body.text});
+        let bodyText = body.text;
+        if (codeBlock) {
+          // `replaceAll` is not supported before node v15
+          codeBlock.forEach((item) => {
+            bodyText = bodyText.replace(placeholder, item);
+          });
+        }
+        let content = format(config.replay, {
+          title: title.text,
+          body: bodyText,
+        });
         const issueComment = this.context.issue({ body: content });
 
         this.log.trace({
